@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IPFS + Ethereum Dapp Example | Get File</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<script type="text/javascript">
+
+		function show_img(){
+
+			$(document).ready(function(){
+				$.get('/getIPFS/'+document.getElementById('ipfs_hash').value, function(data){
+					document.getElementById('prev').src = data.data;
+				})
+			})
+			
+		}
+
+	</script>
+</head>
+<body>
+
+	<div style="margin: auto; width: 50%; margin-top: 75px;">
+		<center>
+
+			<br><br><br>
+
+			<label>Enter IPFS Hash</label><br><br>
+			<input type="text" id="ipfs_hash" placeholder="Enter your hash here...">
+
+			<br><br><br>
+
+			<button onclick="show_img()">Submit</button>
+
+			<br><br>
+
+			<img id="prev" src="" style="width: 100%;">
+
+		</center>
+
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>IPFS + Ethereum Dapp Example | Home</title>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+	<script type="text/javascript">
+		function setvalue(ipfs_hash) {
+            //console.log('Clicked!!')
+            try {
+                // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
+                var abi = [
+                    {
+                        "constant": false,
+                        "inputs": [
+                            {
+                                "name": "x",
+                                "type": "string"
+                            }
+                        ],
+                        "name": "set",
+                        "outputs": [],
+                        "payable": false,
+                        "stateMutability": "nonpayable",
+                        "type": "function"
+                    },
+                    {
+                        "constant": true,
+                        "inputs": [],
+                        "name": "get",
+                        "outputs": [
+                            {
+                                "name": "",
+                                "type": "string"
+                            }
+                        ],
+                        "payable": false,
+                        "stateMutability": "view",
+                        "type": "function"
+                    }
+                ]
+                //contract address. please change the address to your own
+                var contractaddress = '0x453f2dd2d48642964dab5a41d505a98a49cf75b4';
+                //instantiate and connect to contract address via Abi
+                var myAbi = web3.eth.contract(abi);
+                var myfunction = myAbi.at(contractaddress);
+                //call the set function of our SimpleStorage contract
+                myfunction.set.sendTransaction(ipfs_hash, { from: web3.eth.accounts[0], gas: 4000000 }, function (error, result) {
+                    if (!error) {
+                        console.log(result);
+                        document.getElementById('tx_id').innerHTML = '<a target="_blank" href="https://rinkeby.etherscan.io/tx/'+result+'">'+result+'</a>';
+                    } else {
+                        console.log(error);
+                    }
+                })
+            } catch (err) {
+                console.log(err)
+            }
+        }
+
+		function readURL(input) {
+
+		  /* Changes src of image or video on change of data */
+
+		  if (input.files && input.files[0]) {
+		    var reader = new FileReader();
+
+		    reader.onload = function(e) {
+		        document.getElementById("prev").src=e.target.result;
+
+		        localStorage.setItem('medy_eth_demo', e.target.result);
+		    }
+
+		    reader.readAsDataURL(input.files[0]);
+		  }
+		}
+
+		function send_to_eth(){
+
+			$(document).ready(function(){
+				$.post('/sendIPFS', {'img_data': localStorage.getItem('medy_eth_demo')}, function(data){
+					//console.log(data)
+
+					setvalue(data.ipfs_hash)
+				})
+			})
+			
+		}
+
+	</script>
+</head>
+<body>
+
+	<div style="margin: auto; width: 50%; margin-top: 75px;">
+		<center>
+			
+
+			<br><br><br>
+
+			<label>Choose File</label><br><br>
+			<input type="file" name="file" onchange="readURL(this)">
+
+			<br><br><br>
+
+			<button onclick="send_to_eth()">Send To Ethereum</button>
+
+			<br><br>
+
+			<p><b>Ethereum TX ID: </b><span id="tx_id">Will be updated here...</span></p>
+
+			<img id="prev" src="" style="width: 100%;">
+
+		</center>
+
+	</div>
+
+</body>
+</html>
