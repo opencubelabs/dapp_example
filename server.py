@@ -63,13 +63,15 @@ def root():
 @app.post('/sendIPFS')
 def sendIPFS():
 
-	img_data = request.forms.get('img_data')
+    img_data = request.forms.get('img_data')
 
-	encrypted = cipher.encrypt(img_data)
+    encrypted = cipher.encrypt(img_data)
 
-	res = api.add_json({'data': encrypted})
+    res = api.add_json({'data': encrypted})
 
-	return {'status': 'ok', 'ipfs_hash': res}
+    print res
+
+    return {'status': 'ok', 'ipfs_hash': res}
 
 @app.get('/getIPFS/<ipfs_hash>')
 def getIPFS(ipfs_hash):

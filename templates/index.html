@@ -40,8 +40,11 @@
                         "type": "function"
                     }
                 ]
+
                 //contract address. please change the address to your own
-                var contractaddress = '0x453f2dd2d48642964dab5a41d505a98a49cf75b4';
+                //var contractaddress = '0x453f2dd2d48642964dab5a41d505a98a49cf75b4';
+                var contractaddress = '0x0b509e8a8e3161304a43927fd41c04b71dd43ef7';
+
                 //instantiate and connect to contract address via Abi
                 var myAbi = web3.eth.contract(abi);
                 var myfunction = myAbi.at(contractaddress);
@@ -69,7 +72,7 @@
 		    reader.onload = function(e) {
 		        document.getElementById("prev").src=e.target.result;
 
-		        localStorage.setItem('medy_eth_demo', e.target.result);
+		        localStorage.setItem('medy_eth_demo_1', e.target.result);
 		    }
 
 		    reader.readAsDataURL(input.files[0]);
@@ -79,8 +82,8 @@
 		function send_to_eth(){
 
 			$(document).ready(function(){
-				$.post('/sendIPFS', {'img_data': localStorage.getItem('medy_eth_demo')}, function(data){
-					//console.log(data)
+				$.post('/sendIPFS', {'img_data': localStorage.getItem('medy_eth_demo_1')}, function(data){
+					console.log(data)
 
 					setvalue(data.ipfs_hash)
 				})
