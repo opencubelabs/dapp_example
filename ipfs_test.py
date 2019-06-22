@@ -12,7 +12,7 @@ app = Bottle(__name__)
 def root():
 	return 'Root'
 
-@app.post('/send/<data_str>')
+@app.get('/send/<data_str>')
 def sendIPFS(data_str):
 
     res = api.add_json({'data': data_str})
