@@ -4,7 +4,7 @@ import json
 
 import ipfsapi
 
-api = ipfsapi.connect('ipfs.infura.io', 5001)
+api = ipfsapi.connect('https://ipfs.infura.io', 5001)
 
 app = Bottle(__name__)
 
