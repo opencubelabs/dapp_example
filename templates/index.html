@@ -6,7 +6,7 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 	<script type="text/javascript">
-		function setvalue(ipfs_hash) {
+		function setvalue(data_val) {
             //console.log('Clicked!!')
             try {
                 // contract Abi defines all the variables,constants and functions of the smart contract. replace with your own abi
@@ -16,7 +16,7 @@
                         "inputs": [
                             {
                                 "name": "x",
-                                "type": "string"
+                                "type": "uint256"
                             }
                         ],
                         "name": "set",
@@ -32,7 +32,7 @@
                         "outputs": [
                             {
                                 "name": "",
-                                "type": "string"
+                                "type": "uint256"
                             }
                         ],
                         "payable": false,
@@ -43,13 +43,13 @@
 
                 //contract address. please change the address to your own
                 //var contractaddress = '0x453f2dd2d48642964dab5a41d505a98a49cf75b4';
-                var contractaddress = '0x0b509e8a8e3161304a43927fd41c04b71dd43ef7';
+                var contractaddress = '0xa15ec16b312b3494bbb788292ea98641f502060c';
 
                 //instantiate and connect to contract address via Abi
-                var myAbi = web3.eth.contract(abi);
+                var myAbi = new web3.eth.contract(abi);
                 var myfunction = myAbi.at(contractaddress);
                 //call the set function of our SimpleStorage contract
-                myfunction.set.sendTransaction(ipfs_hash, { from: web3.eth.accounts[0], gas: 4000000 }, function (error, result) {
+                myfunction.set.sendTransaction(data_val, { from: web3.eth.accounts[0], gas: 4000000 }, function (error, result) {
                     if (!error) {
                         console.log(result);
                         document.getElementById('tx_id').innerHTML = '<a target="_blank" href="https://rinkeby.etherscan.io/tx/'+result+'">'+result+'</a>';
@@ -57,6 +57,18 @@
                         console.log(error);
                     }
                 })
+
+                /*web3.eth.getAccounts(function(error, result) {
+                    web3.eth.sendTransaction(
+                        {from:web3.eth.accounts[0],
+                        to:"0x88e7cf8a5a0e2ca914e90bc45f6dd8963b6bd67b",
+                        value:  "1000000000000000000", 
+                        data: ipfs_hash
+                            }, function(err, transactionHash) {
+                      if (!err)
+                        console.log(transactionHash + " success"); 
+                    });
+                });*/
             } catch (err) {
                 console.log(err)
             }
@@ -85,7 +97,8 @@
 				$.post('/sendIPFS', {'img_data': localStorage.getItem('medy_eth_demo_1')}, function(data){
 					console.log(data)
 
-					setvalue(data.ipfs_hash)
+					//setvalue(data.ipfs_hash)
+                    setvalue(12)
 				})
 			})
 			
